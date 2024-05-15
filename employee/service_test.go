@@ -9,7 +9,7 @@ import (
 type EmployeeRepositoryMock struct {
 	employee  employee.Employee
 	success   bool
-	exits     bool
+	exists    bool
 	employees []employee.Employee
 }
 
@@ -17,7 +17,7 @@ func (erm EmployeeRepositoryMock) Persist(employee employee.Employee) bool {
 	return erm.success
 }
 func (erm EmployeeRepositoryMock) ExistsById(employeeId int16) bool {
-	return erm.exits
+	return erm.exists
 }
 func (erm EmployeeRepositoryMock) GetById(employeeId int16) (*employee.Employee, bool) {
 	return &erm.employee, erm.success
@@ -34,7 +34,7 @@ func TestRegisterNewEmployee(t *testing.T) {
 
 	t.Run("register a valid employee", func(t *testing.T) {
 
-		employeeRepositoryMock.exits = false
+		employeeRepositoryMock.exists = false
 		employeeRepositoryMock.success = true
 
 		err := service.Register(*employee.NewEmployee(1, "Alejandro", "Fernandez", 120.500, true))
@@ -46,7 +46,7 @@ func TestRegisterNewEmployee(t *testing.T) {
 
 	t.Run("register an employee with duplicate ID", func(t *testing.T) {
 
-		employeeRepositoryMock.exits = true
+		employeeRepositoryMock.exists = true
 		employeeRepositoryMock.success = true
 
 		err := service.Register(*employee.NewEmployee(1, "Alejandro", "Fernandez", 120.500, true))
